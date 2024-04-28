@@ -17,9 +17,20 @@ func FmtCount32(count uint32) string {
 		div *= unit
 		exp++
 	}
-	return fmt.Sprintf("%.1f%c",
-		float32(count)/float32(div),
-		"KMGTPE"[exp])
+	return fmt.Sprintf("%.2f%c", float32(count)/float32(div), "KMGTPE"[exp])
+}
+
+func FmtCount64(count uint64) string {
+	const unit = uint64(1000)
+	if count < unit {
+		return fmt.Sprintf("%d", count)
+	}
+	div, exp := unit, 0
+	for n := count / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.2f%c", float64(count)/float64(div), "KMGTPE"[exp])
 }
 
 func FmtSize64(size uint64) string {
@@ -33,7 +44,7 @@ func FmtSize64(size uint64) string {
 		div *= unit
 		exp++
 	}
-	return fmt.Sprintf("%.1f%cB",
+	return fmt.Sprintf("%.2f%cB",
 		float64(size)/float64(div), "KMGTPE"[exp])
 }
 
